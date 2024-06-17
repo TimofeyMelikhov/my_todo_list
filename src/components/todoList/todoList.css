@@ -5,3 +5,15 @@
 .todoList li {
 	list-style: none;
 }
+button {
+	padding: 3px 5px;
+}
+.filterBlock {
+	margin-top: 10px;
+}
+.error {
+	border: 1px solid red;
+}
+.error-message {
+	color: red;
+}
