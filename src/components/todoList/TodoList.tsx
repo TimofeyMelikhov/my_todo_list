@@ -1,85 +1,102 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { ChangeEvent } from 'react'
+
+import { Delete } from '@mui/icons-material'
+import { Button, Checkbox, IconButton } from '@mui/material'
+
 import { ITodoListProps } from 'src/models/models'
 
 import 'src/components/todoList/todoList.css'
 
+import { AddItemForm } from '../addItemForm/AddItemForm'
+import { EditableSpan } from '../editableSpan/EditableSpan'
+
 export const TodoList = ({
+	id,
 	title,
 	tasks,
+	filter,
 	removeTask,
 	changeFilter,
 	addTask,
-	changeTaskStatus
+	changeTaskStatus,
+	removeTodoList,
+	changeTaskTitle,
+	ChangeTodoTitle
 }: ITodoListProps) => {
-	const [newTaskTitle, setNewTitleTask] = useState<string>('')
-	const [error, setError] = useState<string | null>(null)
-
-	const createTitleTaskHandler = (e: ChangeEvent<HTMLInputElement>) => {
-		setNewTitleTask(e.currentTarget.value)
+	const removeTodoListHandler = () => {
+		removeTodoList(id)
 	}
 
-	const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-		if (newTaskTitle.trim() === '') {
-			return
-		}
-		if (e.key === 'Enter') {
-			addTask(newTaskTitle.trim())
-			setNewTitleTask('')
-		}
+	const addTaskHandler = (title: string) => {
+		addTask(title, id)
 	}
 
-	const addNewTask = () => {
-		if (newTaskTitle.trim() === '') {
-			setError('Title is required')
-			return
-		}
-		addTask(newTaskTitle.trim())
-		setNewTitleTask('')
-		setError(null)
+	const changeTodoTitleHandler = (newValue: string) => {
+		ChangeTodoTitle(newValue, id)
 	}
 
 	return (
 		<div className='todoList'>
-			<h3>{title}</h3>
-			<div>
-				<input
-					className={error ? 'error' : ''}
-					type='text'
-					value={newTaskTitle}
-					onChange={createTitleTaskHandler}
-					onKeyDown={onKeyPressHandler}
-				/>
-				<button onClick={addNewTask}>+</button>
-				{error && <div className='error-message'>Title is required!</div>}
-			</div>
+			<h3>
+				<EditableSpan title={title} onChange={changeTodoTitleHandler} />
+				<IconButton aria-label='delete' onClick={removeTodoListHandler}>
+					<Delete />
+				</IconButton>
+			</h3>
 
-			<ul>
+			<AddItemForm addItem={addTaskHandler} />
+
+			<div>
 				{tasks?.map(item => {
 					const removeTaskHandler = () => {
-						removeTask(item.id)
+						removeTask(item.id, id)
 					}
 
-					const isDoneChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-						changeTaskStatus(item.id, e.currentTarget.checked)
+					const isDoneChangeStatusHandler = (
+						e: ChangeEvent<HTMLInputElement>
+					) => {
+						changeTaskStatus(item.id, e.currentTarget.checked, id)
+					}
+
+					const changeTitleHandler = (newValue: string) => {
+						changeTaskTitle(newValue, item.id, id)
 					}
 
 					return (
-						<li key={item.id}>
-							<input
-								type='checkbox'
+						<div key={item.id} className={item.isDone ? 'is-done' : ''}>
+							<Checkbox
 								checked={item.isDone}
-								onChange={isDoneChangeHandler}
+								onChange={isDoneChangeStatusHandler}
 							/>
-							<span>{item.title}</span>
-							<button onClick={removeTaskHandler}>x</button>
-						</li>
+							<EditableSpan title={item.title} onChange={changeTitleHandler} />
+							<IconButton aria-label='delete' onClick={removeTaskHandler}>
+								<Delete />
+							</IconButton>
+						</div>
 					)
 				})}
-			</ul>
+			</div>
 			<div className='filterBlock'>
-				<button onClick={() => changeFilter('all')}>All</button>
-				<button onClick={() => changeFilter('active')}>Active</button>
-				<button onClick={() => changeFilter('completed')}>Completed</button>
+				<Button
+					variant={filter === 'all' ? 'contained' : 'text'}
+					onClick={() => changeFilter('all', id)}
+				>
+					All
+				</Button>
+				<Button
+					color='primary'
+					variant={filter === 'active' ? 'contained' : 'text'}
+					onClick={() => changeFilter('active', id)}
+				>
+					Active
+				</Button>
+				<Button
+					color='secondary'
+					variant={filter === 'completed' ? 'contained' : 'text'}
+					onClick={() => changeFilter('completed', id)}
+				>
+					Completed
+				</Button>
 			</div>
 		</div>
 	)
