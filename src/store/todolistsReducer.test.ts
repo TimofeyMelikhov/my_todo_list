@@ -3,9 +3,9 @@ import { v1 } from 'uuid'
 import { FilterValuesType, ITodoListType } from 'src/models/models'
 
 import {
-	AddTodolistAC,
-	ChangeTodolistTitleAC,
-	RemoveTodolistAC,
+	addTodolistAC,
+	changeTodolistTitleAC,
+	removeTodolistAC,
 	todolistsReducer
 } from './todolistsReducer'
 
@@ -26,7 +26,7 @@ test('correct todolist should be removed', () => {
 		}
 	]
 
-	const endState = todolistsReducer(startState, RemoveTodolistAC(todolist1))
+	const endState = todolistsReducer(startState, removeTodolistAC(todolist1))
 
 	expect(endState.length).toBe(1)
 	expect(endState[0].id).toBe(todolist2)
@@ -51,7 +51,7 @@ test('correct todolist should be added', () => {
 		}
 	]
 
-	const endState = todolistsReducer(startState, AddTodolistAC(newTodolistTitle))
+	const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
 
 	expect(endState.length).toBe(3)
 	expect(endState[2].title).toBe(newTodolistTitle)
@@ -79,7 +79,7 @@ test('correct todolist should change its name', () => {
 
 	const endState = todolistsReducer(
 		startState,
-		ChangeTodolistTitleAC(newTodolistTitle, todolist2)
+		changeTodolistTitleAC(newTodolistTitle, todolist2)
 	)
 
 	expect(endState[0].title).toBe('What to learn')

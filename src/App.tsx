@@ -91,6 +91,26 @@ function App() {
 			[newTodoList.id]: []
 		})
 	}
+	const changeFilter = (value: FilterValuesType, todoListId: string) => {
+		const todoList = todoLists.find(tl => tl.id === todoListId)
+		if (todoList) {
+			todoList.filter = value
+			setTodoLists([...todoLists])
+		}
+	}
+	const ChangeTodoTitle = (newTitle: string, todoListId: string) => {
+		const currentTodo = todoLists.find(tl => tl.id === todoListId)
+		if (currentTodo) {
+			currentTodo.title = newTitle
+			setTodoLists([...todoLists])
+		}
+	}
+	const removeTodoList = (todoListId: string) => {
+		const filteredTodoLists = todoLists.filter(tl => tl.id !== todoListId)
+		setTodoLists(filteredTodoLists)
+		delete tasks[todoListId]
+		setTasks({ ...tasks })
+	}
 
 	const addTask = (title: string, todoListId: string) => {
 		let newTask = {
@@ -102,20 +122,11 @@ function App() {
 		tasks[todoListId] = [newTask, ...currentTusks]
 		setTasks({ ...tasks })
 	}
-
 	const removeTask = (id: string, todoListId: string) => {
 		let result = tasks[todoListId].filter(task => task.id !== id)
 		tasks[todoListId] = result
 		setTasks({ ...tasks })
 	}
-	const changeFilter = (value: FilterValuesType, todoListId: string) => {
-		const todoList = todoLists.find(tl => tl.id === todoListId)
-		if (todoList) {
-			todoList.filter = value
-			setTodoLists([...todoLists])
-		}
-	}
-
 	const changeTaskStatus = (
 		taskId: string,
 		isDone: boolean,
@@ -128,7 +139,6 @@ function App() {
 			setTasks({ ...tasks })
 		}
 	}
-
 	const changeTaskTitle = (
 		newTitle: string,
 		taskId: string,
@@ -140,21 +150,6 @@ function App() {
 			task.title = newTitle
 			setTasks({ ...tasks })
 		}
-	}
-
-	const ChangeTodoTitle = (newTitle: string, todoListId: string) => {
-		const currentTodo = todoLists.find(tl => tl.id === todoListId)
-		if (currentTodo) {
-			currentTodo.title = newTitle
-			setTodoLists([...todoLists])
-		}
-	}
-
-	const removeTodoList = (todoListId: string) => {
-		const filteredTodoLists = todoLists.filter(tl => tl.id !== todoListId)
-		setTodoLists(filteredTodoLists)
-		delete tasks[todoListId]
-		setTasks({ ...tasks })
 	}
 
 	return (
