@@ -3,6 +3,7 @@ import { ITaskStateType } from 'src/models/models'
 import {
 	addTaskAC,
 	changeTaskStatusAC,
+	changeTaskTitleAC,
 	removeTaskAC,
 	tasksReducer
 } from './tasks-reducer'
@@ -142,9 +143,56 @@ test('status of specified task should be changed', () => {
 
 	const endState = tasksReducer(
 		startState,
-		changeTaskStatusAC('2', false, 'todolistId2')
+		changeTaskStatusAC('2', false, 'todolistsId2')
 	)
 
 	expect(endState['todolistsId2'][1].isDone).toBeFalsy()
 	expect(endState['todolistsId1'][1].isDone).toBeTruthy()
+})
+
+test('title of specified task should be changed', () => {
+	const startState: ITaskStateType = {
+		todolistsId1: [
+			{
+				id: '1',
+				title: 'css & html',
+				isDone: true
+			},
+			{
+				id: '2',
+				title: 'js',
+				isDone: true
+			},
+			{
+				id: '3',
+				title: 'react',
+				isDone: false
+			}
+		],
+		todolistsId2: [
+			{
+				id: '1',
+				title: 'Berserk',
+				isDone: true
+			},
+			{
+				id: '2',
+				title: 'КРД',
+				isDone: true
+			},
+			{
+				id: '3',
+				title: 'The last of us',
+				isDone: false
+			}
+		]
+	}
+
+	const endState = tasksReducer(
+		startState,
+		changeTaskTitleAC('2', 'the boys', 'todolistsId2')
+	)
+
+	expect(endState['todolistsId2'][1].title).toBe('the boys')
+	expect(endState['todolistsId1'][1].title).toBe('js')
 })
