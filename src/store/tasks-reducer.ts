@@ -2,6 +2,11 @@ import { v1 } from 'uuid'
 
 import { ITaskStateType, ITasks } from 'src/models/models'
 
+import {
+	AddTodolistActionType,
+	RemoveTodolistActionType
+} from './todolistsReducer'
+
 type removeTaskActionType = {
 	type: 'REMOVE-TASK'
 	taskId: string
@@ -30,6 +35,8 @@ type actionType =
 	| addTaskActionType
 	| changeTaskStatusActionType
 	| changeTaskTitleActionType
+	| AddTodolistActionType
+	| RemoveTodolistActionType
 
 export const tasksReducer = (
 	state: ITaskStateType,
@@ -79,7 +86,17 @@ export const tasksReducer = (
 				[action.todolistId]: updatedTasks
 			}
 		}
-
+		case 'ADD-TODOLIST': {
+			return {
+				...state,
+				[action.todolistId]: []
+			}
+		}
+		case 'REMOVE-TODOLIST': {
+			const stateCopy = { ...state }
+			delete stateCopy[action.id]
+			return stateCopy
+		}
 		default:
 			return state
 	}
