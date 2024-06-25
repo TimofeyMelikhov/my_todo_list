@@ -1,23 +1,22 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, memo, useState } from 'react'
 
 import { AddCircleOutline } from '@mui/icons-material'
 import { IconButton, TextField } from '@mui/material'
 
 import { IAddItemFormType } from 'src/models/models'
 
-export const AddItemForm = ({ addItem }: IAddItemFormType) => {
+export const AddItemForm = memo(({ addItem }: IAddItemFormType) => {
+	console.log('AddItemForm is called')
 	const [newTaskTitle, setNewTitleTask] = useState<string>('')
 	const [error, setError] = useState<string | null>(null)
 
 	const createTitleTaskHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		setNewTitleTask(e.currentTarget.value)
-		setError(null)
 	}
 
 	const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-		if (newTaskTitle.trim() === '') {
-			setError('Title is required')
-			return
+		if (error !== null) {
+			setError(null)
 		}
 		if (e.key === 'Enter') {
 			addItem(newTaskTitle.trim())
@@ -32,7 +31,6 @@ export const AddItemForm = ({ addItem }: IAddItemFormType) => {
 		}
 		addItem(newTaskTitle.trim())
 		setNewTitleTask('')
-		setError(null)
 	}
 
 	return (
@@ -52,4 +50,4 @@ export const AddItemForm = ({ addItem }: IAddItemFormType) => {
 			</IconButton>
 		</div>
 	)
-}
+})

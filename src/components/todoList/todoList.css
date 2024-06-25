@@ -1,5 +1,6 @@
 .todoList {
 	margin-top: 20px;
+	min-height: 270px;
 }
 button {
 	padding: 3px 5px;

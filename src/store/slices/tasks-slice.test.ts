@@ -6,8 +6,8 @@ import tasksSlice, {
 	removeTasks,
 	removeTodolist,
 	tasksState
-} from './slices/tasksSlice'
-import { addTodolist as addTodoTodolist } from './slices/todolistSlice'
+} from './tasksSlice'
+import { addTodolist as addTodoTodolist } from './todolistSlice'
 
 test('correct task should be deleted from correct array', () => {
 	const startState: tasksState = {
@@ -101,7 +101,7 @@ test('correct task should be added to correct array', () => {
 
 	const endState = tasksSlice(
 		startState,
-		addTasks({ taskTitle: 'the boys', todolistId: 'todolistsId2' })
+		addTasks({ title: 'the boys', id: 'todolistsId2' })
 	)
 
 	expect(endState.tasks['todolistsId1'].length).toBe(3)

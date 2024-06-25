@@ -27,16 +27,16 @@ export const todoListsId2 = v1()
 
 const initialState: TodolistsState = {
 	todolists: [
-		{
-			id: todoListsId1,
-			title: 'What to learn',
-			filter: 'all'
-		},
-		{
-			id: todoListsId2,
-			title: 'What to watch',
-			filter: 'all'
-		}
+		// {
+		// 	id: todoListsId1,
+		// 	title: 'What to learn',
+		// 	filter: 'all'
+		// },
+		// {
+		// 	id: todoListsId2,
+		// 	title: 'What to watch',
+		// 	filter: 'all'
+		// }
 	]
 }
 

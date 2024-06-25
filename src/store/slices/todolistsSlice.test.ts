@@ -8,7 +8,7 @@ import todolistsSlice, {
 	changeTodolistFilter,
 	changeTodolistTitle,
 	removeTodolist
-} from './slices/todolistSlice'
+} from './todolistSlice'
 
 test('correct todolist should be removed', () => {
 	let todolist1 = v1()

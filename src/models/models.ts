@@ -1,23 +1,10 @@
 export interface ITodoListProps {
 	id: string
 	title: string
-	tasks: ITasks[]
 	filter: FilterValuesType
-	removeTask: (id: string, todoListId: string) => void
 	changeFilter: (value: FilterValuesType, todoListId: string) => void
-	addTask: (title: string, todoListId: string) => void
-	changeTaskStatus: (
-		taskId: string,
-		isDone: boolean,
-		todoListId: string
-	) => void
-	changeTaskTitle: (
-		newValue: string,
-		taskId: string,
-		todoListId: string
-	) => void
 	ChangeTodoTitle: (newValue: string, todoListId: string) => void
-	removeTodoList: (todoListId: string) => void
+	removeTodoList: (todolistId: string) => void
 }
 
 export interface ITasks {
@@ -43,6 +30,13 @@ export interface IAddItemFormType {
 export interface IEditableSpanType {
 	title: string
 	onChange: (newValue: string) => void
+}
+
+export interface ITaskComponentType {
+	taskId: string
+	todolistId: string
+	isDone: boolean
+	title: string
 }
 
 export type FilterValuesType = 'all' | 'completed' | 'active'

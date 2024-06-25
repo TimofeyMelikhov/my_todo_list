@@ -3,19 +3,19 @@ import { v1 } from 'uuid'
 
 import { ITaskStateType, ITasks } from 'src/models/models'
 
-import { todoListsId1, todoListsId2 } from './todolistSlice'
+// import { todoListsId1, todoListsId2 } from './todolistSlice'
 
 export interface tasksState {
 	tasks: ITaskStateType
 }
 
 type removeTaskPayloadType = {
-	todoListId: string
+	todolistId: string
 	taskId: string
 }
 type addTaskPayloadType = {
-	taskTitle: string
-	todolistId: string
+	title: string
+	id: string
 }
 type changeTaskStatusPayloadType = {
 	taskId: string
@@ -33,40 +33,40 @@ type addTodolistPayloadType = {
 
 const initialState: tasksState = {
 	tasks: {
-		[todoListsId1]: [
-			{
-				id: v1(),
-				title: 'css & html',
-				isDone: true
-			},
-			{
-				id: v1(),
-				title: 'js',
-				isDone: true
-			},
-			{
-				id: v1(),
-				title: 'react',
-				isDone: false
-			}
-		],
-		[todoListsId2]: [
-			{
-				id: v1(),
-				title: 'Berserk',
-				isDone: true
-			},
-			{
-				id: v1(),
-				title: 'КРД',
-				isDone: true
-			},
-			{
-				id: v1(),
-				title: 'The last of us',
-				isDone: false
-			}
-		]
+		// [todoListsId1]: [
+		// 	{
+		// 		id: v1(),
+		// 		title: 'css & html',
+		// 		isDone: true
+		// 	},
+		// 	{
+		// 		id: v1(),
+		// 		title: 'js',
+		// 		isDone: true
+		// 	},
+		// 	{
+		// 		id: v1(),
+		// 		title: 'react',
+		// 		isDone: false
+		// 	}
+		// ],
+		// [todoListsId2]: [
+		// 	{
+		// 		id: v1(),
+		// 		title: 'Berserk',
+		// 		isDone: true
+		// 	},
+		// 	{
+		// 		id: v1(),
+		// 		title: 'КРД',
+		// 		isDone: true
+		// 	},
+		// 	{
+		// 		id: v1(),
+		// 		title: 'The last of us',
+		// 		isDone: false
+		// 	}
+		// ]
 	}
 }
 
@@ -75,19 +75,19 @@ export const tasksSlice = createSlice({
 	initialState,
 	reducers: {
 		removeTasks: (state, action: PayloadAction<removeTaskPayloadType>) => {
-			const { todoListId, taskId } = action.payload
-			state.tasks[todoListId] = state.tasks[todoListId].filter(
+			const { todolistId, taskId } = action.payload
+			state.tasks[todolistId] = state.tasks[todolistId].filter(
 				t => t.id !== taskId
 			)
 		},
 		addTasks: (state, action: PayloadAction<addTaskPayloadType>) => {
-			const { taskTitle, todolistId } = action.payload
+			const { title, id } = action.payload
 			const newTask: ITasks = {
 				id: v1(),
-				title: taskTitle,
+				title,
 				isDone: false
 			}
-			state.tasks[todolistId].unshift(newTask)
+			state.tasks[id].unshift(newTask)
 		},
 		changeTaskStatus: (
 			state,

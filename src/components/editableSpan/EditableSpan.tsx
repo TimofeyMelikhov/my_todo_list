@@ -1,10 +1,11 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, memo, useState } from 'react'
 
 import { TextField } from '@mui/material'
 
 import { IEditableSpanType } from 'src/models/models'
 
-export const EditableSpan = ({ title, onChange }: IEditableSpanType) => {
+export const EditableSpan = memo(({ title, onChange }: IEditableSpanType) => {
+	console.log('EditableSpan is called')
 	const [editMode, setEditMode] = useState<boolean>(false)
 	const [newTitle, setNewTitle] = useState<string>('')
 
@@ -36,4 +37,4 @@ export const EditableSpan = ({ title, onChange }: IEditableSpanType) => {
 			)}
 		</>
 	)
-}
+})
